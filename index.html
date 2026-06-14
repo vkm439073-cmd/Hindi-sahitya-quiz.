@@ -138,5 +138,15 @@ function checkAnswer(i){
 loadQuestion();
 </script>
 
-</body>
+</body>function nextQuestion(){
+  current++;
+
+  if(current >= quiz.length){
+    document.querySelector(".question-box").innerHTML =
+      "<h2>🎉 Quiz समाप्त!</h2><h3>आपका स्कोर: " + score + "/" + quiz.length + "</h3>";
+    return;
+  }
+
+  loadQuestion();
+}
 </html>
