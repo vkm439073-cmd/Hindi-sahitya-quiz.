@@ -137,16 +137,99 @@ function checkAnswer(i){
 
 loadQuestion();
 </script>
+const quiz = [
+  {
+    q: "महादेवी वर्मा किस युग की कवयित्री हैं?",
+    options: ["भक्तिकाल", "छायावाद", "रीतिकाल", "आधुनिक काल"],
+    answer: 1,
+    exp: "महादेवी वर्मा छायावाद की प्रमुख कवयित्री हैं।"
+  },
+  {
+    q: "गोदान के लेखक कौन हैं?",
+    options: ["प्रेमचंद", "जयशंकर प्रसाद", "निराला", "अज्ञेय"],
+    answer: 0,
+    exp: "गोदान उपन्यास मुंशी प्रेमचंद द्वारा लिखा गया है।"
+  },
+  {
+    q: "कामायनी किसकी रचना है?",
+    options: ["निराला", "जयशंकर प्रसाद", "महादेवी", "पंत"],
+    answer: 1,
+    exp: "कामायनी जयशंकर प्रसाद की प्रसिद्ध रचना है।"
+  }
+];
 
-</body>function nextQuestion(){
-  current++;
+let current = 0;
+let score = 0;
+let answers = [];
 
+function loadQuestion(){
   if(current >= quiz.length){
-    document.querySelector(".question-box").innerHTML =
-      "<h2>🎉 Quiz समाप्त!</h2><h3>आपका स्कोर: " + score + "/" + quiz.length + "</h3>";
+    showResult();
     return;
   }
 
+  let q = quiz[current];
+
+  document.getElementById("question").innerText = q.q;
+
+  document.getElementById("opt0").innerText = q.options[0];
+  document.getElementById("opt1").innerText = q.options[1];
+  document.getElementById("opt2").innerText = q.options[2];
+  document.getElementById("opt3").innerText = q.options[3];
+
+  document.getElementById("result").innerHTML = "";
+}
+
+function checkAnswer(i){
+  let q = quiz[current];
+
+  let isCorrect = (i === q.answer);
+
+  answers.push({
+    question: q.q,
+    user: q.options[i],
+    correct: q.options[q.answer],
+    exp: q.exp,
+    isCorrect: isCorrect
+  });
+
+  if(isCorrect){
+    score++;
+    document.getElementById("result").innerHTML = "✔ सही उत्तर";
+  } else {
+    document.getElementById("result").innerHTML =
+      "❌ गलत उत्तर<br>✔ सही: " + q.options[q.answer] + "<br>" + q.exp;
+  }
+}
+
+function nextQuestion(){
+  current++;
   loadQuestion();
 }
+
+function showResult(){
+  document.querySelector(".question-box").innerHTML = `
+    <h2>🎉 Quiz समाप्त</h2>
+    <h3>आपका स्कोर: ${score} / ${quiz.length}</h3>
+    <h3>प्रतिशत: ${(score/quiz.length*100).toFixed(1)}%</h3>
+  `;
+
+  let reviewHTML = "<h3>📖 Answer Review</h3>";
+
+  answers.forEach((a, index) => {
+    reviewHTML += `
+      <div style="text-align:left;margin:10px 0;padding:10px;background:#1f2937;border-radius:8px">
+        <b>Q${index+1}:</b> ${a.question}<br>
+        आपका उत्तर: ${a.user}<br>
+        सही उत्तर: ${a.correct}<br>
+        ${a.isCorrect ? "✔ सही" : "❌ गलत"}<br>
+        <small>${a.exp}</small>
+      </div>
+    `;
+  });
+
+  document.getElementById("review").innerHTML = reviewHTML;
+}
+
+loadQuestion();
 </html>
