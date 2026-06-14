@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>हिन्दी साहित्य क्विज</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  background:#0b0f19;
+  color:white;
+  text-align:center;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:20px;
+}
+
+h1{
+  color:#60a5fa;
+}
+
+.question-box{
+  background:#111827;
+  padding:20px;
+  border-radius:10px;
+  margin-top:20px;
+}
+
+.btn{
+  display:block;
+  width:100%;
+  margin:10px 0;
+  padding:10px;
+  background:#1f2937;
+  color:white;
+  border:none;
+  cursor:pointer;
+  border-radius:8px;
+}
+
+.btn:hover{
+  background:#374151;
+}
+
+.result{
+  margin-top:20px;
+  font-size:18px;
+  color:#34d399;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>📚 हिन्दी साहित्य क्विज</h1>
+
+  <div class="question-box">
+    <h3 id="question">प्रश्न यहाँ आएगा</h3>
+
+    <button class="btn" onclick="checkAnswer(0)" id="opt0"></button>
+    <button class="btn" onclick="checkAnswer(1)" id="opt1"></button>
+    <button class="btn" onclick="checkAnswer(2)" id="opt2"></button>
+    <button class="btn" onclick="checkAnswer(3)" id="opt3"></button>
+  </div>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const quiz = [
+  {
+    q: "महादेवी वर्मा किस युग की कवयित्री हैं?",
+    options: ["भक्तिकाल", "छायावाद", "रीतिकाल", "आधुनिक काल"],
+    answer: 1,
+    exp: "महादेवी वर्मा छायावाद की प्रमुख कवयित्री हैं।"
+  },
+  {
+    q: "गोदान के लेखक कौन हैं?",
+    options: ["प्रेमचंद", "जयशंकर प्रसाद", "निराला", "अज्ञेय"],
+    answer: 0,
+    exp: "गोदान उपन्यास मुंशी प्रेमचंद द्वारा लिखा गया है।"
+  },
+  {
+    q: "कामायनी किसकी रचना है?",
+    options: ["निराला", "जयशंकर प्रसाद", "महादेवी", "पंत"],
+    answer: 1,
+    exp: "कामायनी जयशंकर प्रसाद की प्रसिद्ध महाकाव्य रचना है।"
+  }
+];
+
+let current = 0;
+let score = 0;
+
+function loadQuestion(){
+  if(current >= quiz.length){
+    document.getElementById("question").innerHTML = "Quiz समाप्त!";
+    document.querySelector(".question-box").innerHTML = "";
+    document.getElementById("result").innerHTML =
+      "आपका स्कोर: " + score + "/" + quiz.length;
+    return;
+  }
+
+  let q = quiz[current];
+  document.getElementById("question").innerHTML = q.q;
+
+  document.getElementById("opt0").innerText = q.options[0];
+  document.getElementById("opt1").innerText = q.options[1];
+  document.getElementById("opt2").innerText = q.options[2];
+  document.getElementById("opt3").innerText = q.options[3];
+}
+
+function checkAnswer(i){
+  let q = quiz[current];
+
+  if(i === q.answer){
+    score++;
+  } else {
+    alert("गलत उत्तर ❌\nसही उत्तर: " + q.options[q.answer] + "\n\n" + q.exp);
+  }
+
+  current++;
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
